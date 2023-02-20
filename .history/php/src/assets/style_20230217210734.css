@@ -1,0 +1,154 @@
+/*@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;1,500&display=swap');*/
+:root {
+  /* Colors */
+  --color-primary-light: rgba(146, 208, 80, 0.27);
+  --color-primary-lighter: rgba(226, 240, 217, 1);
+  --color-primary-dark: rgba(146, 208, 80, 1);
+  --color-primary-accent: rgba(32, 119, 50, 1);
+
+  --color-secondary-light: rgba(128, 179, 255, 0.27);
+  --color-secondary-lighter: rgba(221, 235, 255, 1);
+  --color-secondary-dark: rgba(64, 105, 228, 1);
+  --color-secondary-accent: rgba(238, 194, 107, 1);
+
+  --color-tertiary-light: rgba(238, 107, 137, 27%);
+  --color-tertiary-lighter: rgba(255, 235, 249, 1);
+  --color-tertiary-dark: rgba(238, 107, 137, 1);
+  --color-tertiary-accent: rgba(64, 105, 228, 1);
+}
+body {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    background-color: white;
+    margin: 0;
+    padding: 0;
+}
+.black-border {
+    border: 1px solid black;
+    padding: 1rem;
+}
+.img-atas {
+    width: auto;
+    height: 100px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+  }
+  
+hr {
+    margin: 1rem 0;
+    color: inherit;
+    background-color: currentColor;
+    border: 0;
+    height: 1px;
+    opacity: 0.25;
+  }
+.block_list{
+  border-radius: 12px;
+}
+.block_list > hr{
+  height: 1.75px;
+  margin-top: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+.block_list > ul{
+  list-style: none;
+  background-color: inherit;
+  opacity: 1;
+  border-radius: 12px;
+  padding-left: 12px;
+  padding-top: 5px;
+}
+.block_list > button{
+  border: none;
+  border-radius: 8px;
+  padding: 0.2rem 1.5rem;
+  margin-top: 2em;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.block_list[data-priority="1"] {
+  background-color: var(--color-primary-light);
+}
+
+.block_list[data-priority="1"] > ul {
+  background-color: var(--color-primary-lighter);
+}
+
+.block_list[data-priority="1"] > button[data-property="Delete"] {
+  background-color: var(--color-primary-dark);
+}
+
+.block_list[data-priority="1"] > button[data-property="Edit"] {
+  background-color: var(--color-primary-accent);
+}
+
+.block_list[data-priority="2"] {
+  background-color: var(--color-secondary-lighter);
+}
+
+.block_list[data-priority="2"] > ul {
+  background-color: var(--color-secondary-light);
+}
+
+.block_list[data-priority="2"] > button[data-property="Delete"] {
+  background-color: var(--color-secondary-dark);
+}
+
+.block_list[data-priority="2"] > button[data-property="Edit"] {
+  background-color: var(--color-secondary-accent);
+}
+
+.block_list[data-priority="3"] {
+  background-color: var(--color-tertiary-lighter);
+}
+
+.block_list[data-priority="3"] > ul {
+  background-color: var(--color-tertiary-light);
+}
+
+.block_list[data-priority="3"] > button[data-property="Delete"] {
+  background-color: var(--color-tertiary-dark);
+}
+
+.block_list[data-priority="3"] > button[data-property="Edit"] {
+  background-color: var(--color-tertiary-accent);
+}
+
+
+
+table,th,tr,td{
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  padding: 0.3em;
+  width: 40px;
+}
+tr:nth-child(2n+2){
+  background-color: rgba(0, 0, 0, 0.02);
+}
+td:nth-last-child(-n+1){
+  text-align: center;
+}
+input[name="name"]{
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  width: calc(inherit+2em);
+}
+input[name="quantity"]{
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  width: inherit;
+}
+button{
+  border: none;
+  border-radius: 8px;
+  padding: 0.2rem 1.5rem;
+  color: black;
+  font-weight: 500;
+  cursor: pointer;
+}
+button[data-property="Delete-item"]{
+  color: red;
+}

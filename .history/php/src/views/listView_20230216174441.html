@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    <script src="../assets/script.js"></script>
+    <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+    <section id="lists-section">
+        <form class="row g-3 needs-validation" novalidate>
+            <div id="searchItem_" class="col-md-4">
+                <label for="searchItem" class="form-label">Wyszukaj element z listy</label>
+                <input type="search" class="form-control" id="search" aria-label="Search" placeholder="Wyszukaj po nazwie">
+            </div>
+            <div class="col-md-2">
+                <label for="categorySelect" class="form-label">Kategoria</label>
+                <select id="categorySelect" class="form-select">
+                    <option selected value="0">Wszystkie</option>
+                    
+                </select>
+            </div>
+        </form>
+        <div id="objects" class="row m-0 mt-5"></div>
+    </section>
+
+    <section id="activity-section">
+        <h2 class="me-4">
+            <span class="fw-light">Witaj,</span>
+            <br>
+            <span><strong>Gracjan</strong></span>
+        </h2>
+        <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle" style="width: 144px;" alt="Avatar" />
+        <hr class="hr" />
+        <h2 class="me-4">
+            <span class="fw-light">Witaj,</span>
+            <span><strong>Gracjan</strong></span>
+        </h2>
+    </section>
+    <script>
+
+$(document).ready(function() {
+    const catergories = {
+        1: 'Elektronika',
+        2: 'Meble',
+        3: 'Kosmetyki',
+        4: 'Jedzenie',
+        5: 'Ubrania',
+        6: 'Zabawki',
+        7: 'Sport',
+        8: 'Książki',
+        9: 'Narzędzia',
+        10: 'RTV'
+    }
+    let loadData = (param) => {
+        $.ajax({
+            url: 'group_by_list.php',
+            dataType: 'json',
+            method: 'POST',
+            data:{query: param},
+            beforeSend: function() {
+                $("#loading-image").show();
+             },
+            success: function(data) {
+                console.log(data);
+                let _data = groupByList(data);
+                console.log(_data);
+                let content = $('#objects').empty() 
+                $.each(_data, function(key, value) {
+                    $.each(value, function(index, item) {
+                        console.log(index, item);
+                        let div = $('<div>').addClass('col-lg-3 col-md-5 col-sm-5 mb-4');
+                        let tittle = $('<h4>').text(index);
+                        let list = $('<ul>').addClass('list-group');
+                        $.each(item, function(key, value) {
+                            let listItem = $('<li>').addClass('list-group-item').text(value.product_name + ' - ' + value.quantity);
+                            list.append(listItem);
+                        });
+                        div.append(tittle, list);
+                        content.append(div);
+                    });
+                });
+                // ukrycie animacji ładowania
+                $("#loading-image").hide();
+            },
+            error: function (jqXHR, exception){
+                console.log(jqXHR, exception);
+
+            }
+        })
+        
+    }
+    loadData()
+    $("#search").on("keyup change",function(){
+        let inputVal = $(this).val();
+        console.log(inputVal);
+        if (inputVal.length != "") {
+            loadData(param = inputVal)
+        }else{
+            loadData()
+        }
+    })
+    $("#Edit_list").on("click",function(){
+    })
+    $("#Delete_list").on("click",function(){
+        console.log("asd");
+    })
+})
+
+let groupByList = (data) => {
+    const result = data.reduce((acc, { name, product_name, quantity }) => ({
+        ...acc,
+        [name]: [...(acc[name] || []), { product_name, quantity }],
+    }), {});
+    const output = Object.entries(result).map(([name, values]) => ({ [name]: values }));
+    return output;
+}
+
+$(document).on("click", "#Edit_list", function() {
+    var productId = $(this).data('product-id');
+    var myModal = new bootstrap.Modal(document.getElementById("exampleModal"))
+    myModal.show();
+
+    $(document).on("click", ".btn-secondary", function() {
+        myModal.hide()
+    })
+    $.ajax({
+        url: 'edit_list.php',
+        dataType: 'json',
+        method: 'POST',
+        data:{list_id: productId},
+        beforeSend: function() {
+            $("#loading-image").show();
+         },
+        success: function(data) {
+            console.log(data);
+            let content = $('#objects').empty() 
+            let dataItems = JSON.parse(JSON.stringify(data))
+            console.log(dataItems);}
+        })
+});
+
+$(document).on("click", "#Delete_list", function() {
+    var productId = $(this).data('product-id');
+    console.log(productId);
+    $.ajax({
+        url: "delete_list.php",
+        type: "post",
+        data: {list_id: productId},
+        success: function(result) {
+            // wykonaj kod po usunięciu listy
+        }
+    });
+}); 
+    </script>
+</body>
+</html>

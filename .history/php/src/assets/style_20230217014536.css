@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;1,500&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    background-color: white;
+    margin: 0;
+    padding: 0;
+}
+.black-border {
+    border: 1px solid black;
+    padding: 1rem;
+}
+.img-atas {
+    width: auto;
+    height: 100px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+  }
+  
+hr {
+    margin: 1rem 0;
+    color: inherit;
+    background-color: currentColor;
+    border: 0;
+    height: 1px;
+    opacity: 0.25;
+  }
+
+.block_list > hr{
+  height: 1.75px;
+  margin-top: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+.block_list > ul{
+  list-style: none;
+  background-color: inherit;
+  opacity: 1;
+  border-radius: 3px;
+  padding-left: 12px;
+  padding-top: 5px;
+}
+.block_list > button{
+  border: none;
+  border-radius: 3px;
+  padding: 0.2rem 2rem;
+  margin: 0.5rem 0.5rem 0.5rem 0;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+}
+.block_list[data-priority="3"]{
+  background-color: rgba(238, 107, 137, 27%);
+  border-radius: 12px;
+}
+.block_list[data-priority="3"]>ul{
+  background-color: rgba(255, 235, 249, 1);
+}
+.block_list[data-priority="3"]>button[data-property="Delete"]{
+  background-color: rgba(238, 107, 137, 1);
+}
+.block_list[data-priority="3"]>button[data-property="Edit"]{
+  background-color: rgba(64, 105, 228, 1);
+}
