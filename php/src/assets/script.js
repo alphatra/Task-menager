@@ -82,6 +82,19 @@ $(document).ready(function() {
             $('<td>').append(input_quantity.attr('value', product.quantity).attr('org-name', 'quantity')).appendTo(row);
             $('<td>').append(setButton,deleteButton).appendTo(row);
             table.append(row);
+            /*====== USUWANIE REKORDU UI ======*/
+            //usuwanie rekordu z tabeli na bieżąco
+            deleteButton.on('click', function() {
+                $(this).closest('tr').remove();
+                updateRowIndexes();
+            });
+            //aktualizacja jego numerka
+            function updateRowIndexes() {
+                table.find('tr').each(function(index, row) {
+                    $(row).find('td').eq(0).text(index);
+                });
+            }
+            /*=================================*/
         });
         // dodanie wiersza z polami do wypełnienia i przyciskiem "Dodaj"
         var newRow = $('<tr>');
