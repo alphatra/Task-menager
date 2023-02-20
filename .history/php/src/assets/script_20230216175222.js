@@ -31,7 +31,7 @@ $(document).ready(function() {
             url: 'group_by_list.php',
             dataType: 'json',
             method: 'POST',
-            data:{query: param},
+            data:{sql: param},
             beforeSend: function() {
                 $("#loading-image").show();
              },

@@ -29,8 +29,8 @@ class db{
     // Wyświetlanie list z bazy danych
     public function getData($tablename){
         $this->tablename = $tablename;
-        $query = "SELECT * FROM $this->tablename";
-        $stmt = $this->conn->prepare($query);
+        $sql = "SELECT * FROM $this->tablename";
+        $stmt = $this->conn->prepare($sql);
         $stmt->execute();
         $result = $stmt->get_result();
         
@@ -41,8 +41,8 @@ class db{
     public function searchData($tablename, $search){
         $this->tablename = $tablename;
         $this->search = $search;
-        $query = "SELECT * FROM $this->tablename WHERE name LIKE '$this->search%'";
-        $result = mysqli_query($this->conn, $query);
+        $sql = "SELECT * FROM $this->tablename WHERE name LIKE '$this->search%'";
+        $result = mysqli_sql($this->conn, $sql);
         $result = mysqli_fetch_all($result, MYSQLI_ASSOC);
         
         return json_encode($result);
@@ -51,8 +51,8 @@ class db{
     public function searchData($tablename="", $search=""){
         $this->tablename = "list";
         $this->search = "{$search}%";
-        $query = "SELECT * FROM $this->tablename WHERE name LIKE ?";
-        $stmt = $this->conn->prepare($query);
+        $sql = "SELECT * FROM $this->tablename WHERE name LIKE ?";
+        $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("s",$search);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -67,10 +67,10 @@ class db{
         $product_description = $Param[1];
         $product_image = $Param[2];
         $category_id = $Param[3];
-        $query = "INSERT INTO products (product_name, product_description, product_image, category_id) 
+        $sql = "INSERT INTO products (product_name, product_description, product_image, category_id) 
                     VALUES ('{$product_name}', '{$product_description}', '{$product_image}', '{$category_id}')";
 
-        mysqli_query($this->conn, $query);
+        mysqli_sql($this->conn, $sql);
     }
 
     public function fetchData($Data){
@@ -83,8 +83,8 @@ class db{
         return [$product_name, $product_description, $product_image, $category_id];
     }
     public function getMaxId(){
-        $query = "SELECT MAX(id) as max_id FROM products";
-        $result = mysqli_query($this->conn, $query);
+        $sql = "SELECT MAX(id) as max_id FROM products";
+        $result = mysqli_sql($this->conn, $sql);
         $result = mysqli_fetch_all($result, MYSQLI_ASSOC);
         return $result;
     }
@@ -92,12 +92,12 @@ class db{
         $this->list_name = $list_name;
         $this->created_date = date("Y/m/d h:i:sa");
         $this->end_date = $end_date;
-        $query = "SELECT MAX(id) as max_id FROM list";
-        $result = mysqli_query($this->conn, $query);
+        $sql = "SELECT MAX(id) as max_id FROM list";
+        $result = mysqli_sql($this->conn, $sql);
         $row = mysqli_fetch_assoc($result);
         $next_id = $row['max_id'] + 1;
-        $query = "INSERT INTO list (id, list_name, created_date, end_date) VALUES ('{$next_id}','{$list_name}','{$created_date}','{$end_date}')";
-        return mysqli_query($this->conn, $query);
+        $sql = "INSERT INTO list (id, list_name, created_date, end_date) VALUES ('{$next_id}','{$list_name}','{$created_date}','{$end_date}')";
+        return mysqli_sql($this->conn, $sql);
     }
 }
 ?>

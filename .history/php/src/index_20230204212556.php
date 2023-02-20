@@ -4,7 +4,7 @@ require_once('./php/CRUD.php');
 
 $mysqli = new mysqli("localhost", "root", "root", "mydb") die("Connection failed: " . mysqli_connect_error());
 
-if ($result = $mysqli -> query("SELECT * FROM Persons")) {
+if ($result = $mysqli -> sql("SELECT * FROM Persons")) {
     echo "Returned rows are: " . $result -> num_rows;
     // Free result set
     $result -> free_result();

@@ -27,24 +27,24 @@ class db{
     }
 
     // Wyświetlanie list z bazy danych
-    public function getData($query = null, $category = null){
-        $this->query = $query;
+    public function getData($sql = null, $category = null){
+        $this->sql = $sql;
         $this->category = $category;
         $arg = '';
-        if((isset($this->query) && $this->query != '' ) || (isset($this->query) && $this->category != '')){
-            $arg = "WHERE p.product_name LIKE '$this->query%' AND p.category_id LIKE '$this->category%'";
+        if((isset($this->sql) && $this->sql != '' ) || (isset($this->sql) && $this->category != '')){
+            $arg = "WHERE p.product_name LIKE '$this->sql%' AND p.category_id LIKE '$this->category%'";
         }
         $sql = "SELECT * FROM products p ".$arg;
-        $result = mysqli_query($this->conn, $sql);
+        $result = mysqli_sql($this->conn, $sql);
         $result = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
         return json_encode($result);
     }
-    public function getDataOfList($query = null){
-        $this->query = $query;
+    public function getDataOfList($sql = null){
+        $this->sql = $sql;
         $arg = '';
-        if(isset($this->query) && $this->query != ''){
-            $arg = "WHERE product_name LIKE '$this->search%' OR l.created_date LIKE '$this->query%'";
+        if(isset($this->sql) && $this->sql != ''){
+            $arg = "WHERE product_name LIKE '$this->search%' OR l.created_date LIKE '$this->sql%'";
         }
         $sql = "SELECT l.name, l.created_date, l.end_date, l.priority, COALESCE(p.product_name, pi.item_name) AS product_name, li.quantity, li.id 
                 FROM list l 
@@ -53,24 +53,24 @@ class db{
                 LEFT JOIN private_items pi ON li.item_key = pi.item_key 
                 $arg
                 ORDER BY l.name";
-        $result = mysqli_query($this->conn, $sql);
+        $result = mysqli_sql($this->conn, $sql);
         $result = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
         return json_encode($result);
     }
     public function deleteList($list_id) {
         $this->list_id = $list_id;
-        $query = "DELETE FROM list WHERE id = $this->list_id;DELETE FROM list_items WHERE list_id = $this->list_id";
-        $result = mysqli_query($this->conn, $query);
+        $sql = "DELETE FROM list WHERE id = $this->list_id;DELETE FROM list_items WHERE list_id = $this->list_id";
+        $result = mysqli_sql($this->conn, $sql);
 
-        return $query;
+        return $sql;
     }
     public function deleteItem($item_id) {
         $this->item_id = $item_id;
-        $query = "DELETE FROM list_items WHERE id = $this->item_id";
-        $result = mysqli_query($this->conn, $query);
+        $sql = "DELETE FROM list_items WHERE id = $this->item_id";
+        $result = mysqli_sql($this->conn, $sql);
 
-        return $query;
+        return $sql;
     }
     // Wyświetlanie list z bazy danych wraz z wyszukiwaniem
     public function searchData($tablename, $search, $category){
@@ -78,17 +78,17 @@ class db{
         $this->search = $search;
         $this->category = $category;
         if($tablename == 'products'){
-            $query = "SELECT * FROM $this->tablename WHERE product_name LIKE '$this->search%'";
+            $sql = "SELECT * FROM $this->tablename WHERE product_name LIKE '$this->search%'";
             if($category != ''){
-                $query .= " AND category_id = $this->category";
+                $sql .= " AND category_id = $this->category";
             }
         }else{
-            $query = "SELECT * FROM $this->tablename WHERE name LIKE '$this->search%'";
+            $sql = "SELECT * FROM $this->tablename WHERE name LIKE '$this->search%'";
             if($category != ''){
-                $query .= " AND category_id = $this->category";
+                $sql .= " AND category_id = $this->category";
             }
         }
-        $result = mysqli_query($this->conn, $query);
+        $result = mysqli_sql($this->conn, $sql);
         $result = mysqli_fetch_all($result, MYSQLI_ASSOC);
         
         return json_encode($result);
@@ -97,8 +97,8 @@ class db{
     public function searchData($tablename="", $search=""){
         $this->tablename = "list";
         $this->search = "{$search}%";
-        $query = "SELECT * FROM $this->tablename WHERE name LIKE ?";
-        $stmt = $this->conn->prepare($query);
+        $sql = "SELECT * FROM $this->tablename WHERE name LIKE ?";
+        $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("s",$search);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -113,10 +113,10 @@ class db{
         $product_description = $Param[1];
         $product_image = $Param[2];
         $category_id = $Param[3];
-        $query = "INSERT INTO products (product_name, product_description, product_image, category_id) 
+        $sql = "INSERT INTO products (product_name, product_description, product_image, category_id) 
                     VALUES ('{$product_name}', '{$product_description}', '{$product_image}', '{$category_id}')";
 
-        mysqli_query($this->conn, $query);
+        mysqli_sql($this->conn, $sql);
     }
 
     public function fetchData($Data){
@@ -131,8 +131,8 @@ class db{
 
     public function getMaxId($tablename){
         $this->tablename = $tablename;
-        $query = "SELECT MAX( id ) AS `Max_Id` FROM $this->tablename";
-        $result = mysqli_query($this->conn, $query);
+        $sql = "SELECT MAX( id ) AS `Max_Id` FROM $this->tablename";
+        $result = mysqli_sql($this->conn, $sql);
         $result = mysqli_fetch_all($result, MYSQLI_ASSOC);
         $result = $result[0]['Max_Id'];
 
@@ -141,8 +141,8 @@ class db{
 
     public function getListId($list_name){
         $this->list_name = $list_name;
-        $query = "SELECT id FROM list WHERE name = '$this->list_name'";
-        $result = mysqli_query($this->conn, $query);
+        $sql = "SELECT id FROM list WHERE name = '$this->list_name'";
+        $result = mysqli_sql($this->conn, $sql);
         $result = mysqli_fetch_all($result, MYSQLI_ASSOC);
         $result = $result[0]['id'];
 
@@ -154,9 +154,9 @@ class db{
         $this->list_name = $list_name;
         $created_date = date("Y-m-d h:i:s");
         $this->end_date = $end_date;
-        $query = "INSERT INTO list (id, name, created_date, end_date) VALUES ('{$id}','{$list_name}','{$created_date}','{$end_date}')";
-        mysqli_query($this->conn, $query);
-        return $query;
+        $sql = "INSERT INTO list (id, name, created_date, end_date) VALUES ('{$id}','{$list_name}','{$created_date}','{$end_date}')";
+        mysqli_sql($this->conn, $sql);
+        return $sql;
     }
 
     public function createListItems($qty,$list_name,$id_product=null, $item_key=null){
@@ -178,7 +178,7 @@ class db{
             $arg2 = $item_key;
         }
         $sql = "INSERT INTO list_items (id, quantity, list_id, $arg) VALUES ('{$id}', '{$this->qty}', '{$list_name}','{$arg2}')";
-        mysqli_query($this->conn, $sql);
+        mysqli_sql($this->conn, $sql);
 
         return $sql;
     }
@@ -187,9 +187,9 @@ class db{
         $this->item_key = $item_key;
         $this->item_name = $item_name;
 
-        $query = "INSERT INTO private_items (item_key, item_name) VALUES ('{$item_key}', '{$item_name}')";
-        mysqli_query($this->conn, $query);
-        return $query;
+        $sql = "INSERT INTO private_items (item_key, item_name) VALUES ('{$item_key}', '{$item_name}')";
+        mysqli_sql($this->conn, $sql);
+        return $sql;
     }
 }
 ?>

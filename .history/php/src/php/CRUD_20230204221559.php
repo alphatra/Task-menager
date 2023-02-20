@@ -25,8 +25,8 @@ class db{
         // Wyświetlanie list z bazy danych
     public function getData($tablename="list"){
         $sql = "SELECT * FROM $this->tablename";
-        $query = "SELECT * FROM `$this->tablename`";
-        $result = mysqli_query($conn, $query);
+        $sql = "SELECT * FROM `$this->tablename`";
+        $result = mysqli_sql($conn, $sql);
         $cars = mysqli_fetch_all($result, MYSQLI_ASSOC);
         echo json_encode($cars);
     }

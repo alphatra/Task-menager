@@ -30,7 +30,7 @@ $(document).ready(function () {
             dataType: 'json',
             method: 'POST',
             data: {
-                query: param
+                sql: param
             },
             beforeSend: function () {
                 $("#loading-image").show();

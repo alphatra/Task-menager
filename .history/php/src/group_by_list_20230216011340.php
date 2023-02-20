@@ -4,6 +4,6 @@ require_once('./model/CRUD.php');
 
 $db = new db();
 
-$query = isset($_REQUEST['query']) ? $_REQUEST['query'] : null;
+$sql = isset($_REQUEST['sql']) ? $_REQUEST['sql'] : null;
 echo $db->getDataOfList('h');
 ?>

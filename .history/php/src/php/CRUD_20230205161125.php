@@ -26,16 +26,16 @@ class db{
     public function getData($tablename="list", $search=""){
         $this->tablename = $tablename;
         $this->search = $search;
-        $query = "SELECT * FROM $this->tablename WHERE name LIKE '%{$this->search}%'";
-        $result = mysqli_query($this->conn, $query);
+        $sql = "SELECT * FROM $this->tablename WHERE name LIKE '%{$this->search}%'";
+        $result = mysqli_sql($this->conn, $sql);
         $result = mysqli_fetch_all($result, MYSQLI_ASSOC);
         
         return json_encode($result);
     }
     public function searchData($tablename="list", $search){
         $this->tablename = $tablename;
-        $query = "SELECT * FROM $this->tablename WHERE name LIKE '%$search%'";
-        $result = mysqli_query($this->conn, $query);
+        $sql = "SELECT * FROM $this->tablename WHERE name LIKE '%$search%'";
+        $result = mysqli_sql($this->conn, $sql);
         $result = mysqli_fetch_all($result, MYSQLI_ASSOC);
         
         return json_encode($result);

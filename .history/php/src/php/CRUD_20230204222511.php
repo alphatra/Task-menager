@@ -24,8 +24,8 @@ class db{
     }
         // Wyświetlanie list z bazy danych
     public function getData($tablename="list"){
-        $query = "SELECT * FROM $this->tablename";
-        $result = mysqli_query($this->conn, $query) or die("Problemy z odczytem danych!");
+        $sql = "SELECT * FROM $this->tablename";
+        $result = mysqli_sql($this->conn, $sql) or die("Problemy z odczytem danych!");
         $ile = mysqli_num_rows($result);
         while($row = mysqli_fetch_row($result))
 {

@@ -28,8 +28,8 @@ class db{
     // Wyświetlanie list z bazy danych
     public function getData($tablename="list"){
         $this->tablename = $tablename;
-        $query = "SELECT * FROM $this->tablename";
-        $stmt = $this->conn->prepare($query);
+        $sql = "SELECT * FROM $this->tablename";
+        $stmt = $this->conn->prepare($sql);
         $stmt->execute();
         $result = $stmt->get_result();
         
@@ -39,8 +39,8 @@ class db{
     public function searchData($tablename="", $search=""){
         $this->tablename = "list";
         $this->search = "%".$search."%";
-        $query = "SELECT * FROM $this->tablename WHERE name LIKE :search";
-        $stmt = $this->conn->prepare($query);
+        $sql = "SELECT * FROM $this->tablename WHERE name LIKE :search";
+        $stmt = $this->conn->prepare($sql);
         $stmt->bind_param(":search", $search);
         $stmt->execute();
         $result = $stmt->get_result();
