@@ -17,7 +17,7 @@ $(document).ready(function() {
         };*/
     
     /*====== POBIERANIE DANYCH O LIŚCIE ======*/
-    const loadData = (param) => {
+    const loadData = (param, priority) => {
         $.ajax({
             url: 'group_by_list.php',
             dataType: 'json',
@@ -239,6 +239,17 @@ $(document).ready(function() {
             loadData(param = inputVal)
         }else{
             loadData()
+        }
+    })
+
+    //Kategorie
+    $("#categorySelect").on("change",function(){
+        let inputVal = $(this).val();
+        console.log(inputVal);
+        if(inputVal == 0){
+            loadData()
+        }else if (inputVal.length != "") {
+            loadData(param = inputVal)
         }
     })
 });
