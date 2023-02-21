@@ -97,6 +97,7 @@ $(document).ready(function() {
             /*=================================*/
         });
         // dodanie wiersza z polami do wypełnienia i przyciskiem "Dodaj"
+
         var newRow = $('<tr>');
         let input_name = $('<input>').attr('type', 'text').attr('name', 'name').attr('placeholder', 'Dodaj nowy produkt');
         let input_quantity = $('<input>').attr('type', 'number').attr('name','quantity').attr('value','1').attr('pattern','[0-9]+').attr('min', '1').attr('max', '100').attr('inputmode', 'numeric');
@@ -106,9 +107,13 @@ $(document).ready(function() {
         $('<td>').append(input_quantity).appendTo(newRow);
         $('<td>').append(addButton).appendTo(newRow);
         table.append(newRow);
-    
+        
+
         $(".modal-body").empty().append(table);
         myModal.show();
+        $(document).on("click", ".btn-secondary, .btn-close", function() {
+            myModal.hide();
+        });
     });
     
 
