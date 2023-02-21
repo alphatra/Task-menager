@@ -118,27 +118,6 @@
 
             loadData()
 
-            let createList_Ajax = (param) => {
-                console.log(param[0].list_name,param[0].end_date,param[0].products);
-
-                $.ajax({
-                    url: '../create_list.php',
-                    method: 'POST',
-                    data: {
-                        list_name: param[0].list_name,
-                        end_date: param[0].end_date,
-                        products: param[0].products
-                    },
-                    cache: false,
-                    success: function (data) {
-                        console.log(data);
-                    },
-                    error: function (xhr, status, error) {
-                        console.log(status);
-
-                    }
-                })
-            }
             const $searchInput = $('#searchItem');
             const $categorySelect = $('#categorySelect');
 
@@ -174,6 +153,23 @@
                 endDate = date;
             }
 
+            function displayList(list) {
+                console.log("List name: " + list.list_name);
+                console.log("End date: " + list.end_date);
+                console.log("Products:");
+                const _div = $('<div>');
+                const hr = $('<hr>').addClass('hr1');
+                const div = $('#list_elements').addClass('px-3 py-3');
+                const br = $('<br>');
+                list.products.forEach(function (product) {
+                    console.log("  - " + product.product_title + " (qty: " + product.qty + ")");
+                    div.append(product.product_title + " " + product.qty)
+                    div.append(br);
+                });
+                _div.append(hr, div, hr);
+                return _div;
+            }
+
             $(document).on("click", "input[data-property='add_tolist']", function () {
                 const index = $(this).data('product-id');
                 const productData = Data.find(e => e.id_product == +index);
@@ -205,33 +201,18 @@
                     }
                 }
                 if (lists.length > 0) {
-                    console.log(lists[0].products);
-                    console.log("Tak");
-                    $('#list_name').text(lists[0].list_name);
-                    $('#end_date').text(lists[0].end_date);
-
-                    // Wywołanie funkcji, aby wyświetlić wszystkie listy
-                    let div = $('#list_elements').empty();
-                    const br = $('<br>');
-                    const ul = $('<ul>');
-                    $.each(lists[0].products, function (i, list) {
-
-                        const h5 = $('<h5>').text(list.product_title);
-                        const qty = $('<input>').attr('type', 'number').attr('value', list.qty);
-                        let listItem = $('<li>').append(h5, qty);
-                        ul.append(listItem);
-
-                    });
-                    div.append(ul);
-                    /*
-                    lists.forEach(function (lists[0].products) {
-                        console.log(list);
-                        savlist_body.append(list.product_title + ' - ' + list.quantity);
-                    });*/
-                }
-            });
-            $('#crateList_button').on('click', function () {
-                createList_Ajax(lists);
+                console.log("Tak");
+                let savlist_body = $('#list_body');
+                const h3 = $('<h3>').text(list.list_name);
+                const p = $('<span>').text(list.end_date);
+                savlist_body.empty();
+                savlist_body.append(h3, p);
+                // Wywołanie funkcji, aby wyświetlić wszystkie listy
+                lists.forEach(function (list) {
+                    console.log(list);
+                    savlist_body.append(displayList(list));
+                });
+            }
             });
 
         });

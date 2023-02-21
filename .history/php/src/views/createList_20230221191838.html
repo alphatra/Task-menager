@@ -119,15 +119,11 @@
             loadData()
 
             let createList_Ajax = (param) => {
-                console.log(param[0].list_name,param[0].end_date,param[0].products);
-
                 $.ajax({
                     url: '../create_list.php',
                     method: 'POST',
                     data: {
-                        list_name: param[0].list_name,
-                        end_date: param[0].end_date,
-                        products: param[0].products
+                        data: param
                     },
                     cache: false,
                     success: function (data) {

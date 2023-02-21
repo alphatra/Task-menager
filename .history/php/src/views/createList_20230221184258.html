@@ -118,27 +118,6 @@
 
             loadData()
 
-            let createList_Ajax = (param) => {
-                console.log(param[0].list_name,param[0].end_date,param[0].products);
-
-                $.ajax({
-                    url: '../create_list.php',
-                    method: 'POST',
-                    data: {
-                        list_name: param[0].list_name,
-                        end_date: param[0].end_date,
-                        products: param[0].products
-                    },
-                    cache: false,
-                    success: function (data) {
-                        console.log(data);
-                    },
-                    error: function (xhr, status, error) {
-                        console.log(status);
-
-                    }
-                })
-            }
             const $searchInput = $('#searchItem');
             const $categorySelect = $('#categorySelect');
 
@@ -205,33 +184,28 @@
                     }
                 }
                 if (lists.length > 0) {
-                    console.log(lists[0].products);
-                    console.log("Tak");
-                    $('#list_name').text(lists[0].list_name);
-                    $('#end_date').text(lists[0].end_date);
-
-                    // Wywołanie funkcji, aby wyświetlić wszystkie listy
-                    let div = $('#list_elements').empty();
-                    const br = $('<br>');
-                    const ul = $('<ul>');
-                    $.each(lists[0].products, function (i, list) {
-
-                        const h5 = $('<h5>').text(list.product_title);
-                        const qty = $('<input>').attr('type', 'number').attr('value', list.qty);
-                        let listItem = $('<li>').append(h5, qty);
-                        ul.append(listItem);
-
-                    });
-                    div.append(ul);
-                    /*
-                    lists.forEach(function (lists[0].products) {
-                        console.log(list);
-                        savlist_body.append(list.product_title + ' - ' + list.quantity);
-                    });*/
-                }
-            });
-            $('#crateList_button').on('click', function () {
-                createList_Ajax(lists);
+                    console.log(lists);
+                console.log("Tak");
+                let savlist_body = $('#list_body');
+                const h3 = $('<h3>').text(lists[0].list_name);
+                const p = $('<span>').text(lists[0].end_date);
+                savlist_body.empty();
+                savlist_body.append(h3, p);
+                // Wywołanie funkcji, aby wyświetlić wszystkie listy
+                const div = $('#list_elements').addClass('px-3 py-3');
+                
+                $.each(lists.products, function (i, list) {
+                    console.log(list);
+                    const element = $('<p>').text('asdas');
+                    div.append(element)
+                });
+                savlist_body.append(div);
+                /*
+                lists.forEach(function (lists[0].products) {
+                    console.log(list);
+                    savlist_body.append(list.product_title + ' - ' + list.quantity);
+                });*/
+            }
             });
 
         });
