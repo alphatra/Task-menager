@@ -153,27 +153,28 @@
             const $categorySelect = $('#categorySelect');
 
             $searchInput.add($categorySelect).on('input', function () {
-
                 const searchQuery = $searchInput.val().trim().toLowerCase();
                 const categoryQuery = $categorySelect.val();
-                console.log(searchQuery);
 
-                loadData(searchQuery.length > 0 ? searchQuery : '', categoryQuery !== '0' ?
-                    categoryQuery : '');
-
-
+                // Check if any search parameters are present
+                if (searchQuery.length || categoryQuery) {
+                    loadData(searchQuery,categoryQuery);
+                } else {
+                    // If no search parameters are present, render all data
+                    renderData();
+                }
             });
 
+            let products = {
+                product_id: [],
+                product_title: [],
+                qty: []
+            };
             let list = {
                 list_name: '',
                 end_date: '',
-                products: [{
-                    product_id: '',
-                    product_title: '',
-                    qty: ''
-                }]
+                products: [products]
             };
-
 
             let add_products = (id, title, quantity) => {
                 if (!checkIfExists(id)) {

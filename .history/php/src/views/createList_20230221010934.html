@@ -98,6 +98,8 @@
                         console.log(data);
                         let content = $('#objects').empty()
                         content.append(private_item)
+                        let dataItems = JSON.parse(JSON.stringify(data))
+                        _dataItems = data
                         $.each(data, function (i, item) {
                             console.log(item);
                             const productCard = createProductCard(item);
@@ -149,31 +151,29 @@
             }
 
             loadData()
-            const $searchInput = $('#searchItem');
-            const $categorySelect = $('#categorySelect');
 
-            $searchInput.add($categorySelect).on('input', function () {
-
-                const searchQuery = $searchInput.val().trim().toLowerCase();
-                const categoryQuery = $categorySelect.val();
-                console.log(searchQuery);
-
-                loadData(searchQuery.length > 0 ? searchQuery : '', categoryQuery !== '0' ?
-                    categoryQuery : '');
-
-
+            $("#searchItem, #categorySelect").on("keyup change", function () {
+                let inputVal = $("#searchItem").val();
+                let selectVal = $("#categorySelect").val();
+                console.log(selectVal);
+                if (inputVal.length > 0 || selectVal > 0) {
+                    inputVal = inputVal.length == 0 ? '' : inputVal;
+                    selectVal = selectVal == 0 ? '' : selectVal;
+                    loadData(inputVal, selectVal);
+                } else {
+                    loadData();
+                }
             });
-
+            let products = {
+                product_id: [],
+                product_title: [],
+                qty: []
+            };
             let list = {
                 list_name: '',
                 end_date: '',
-                products: [{
-                    product_id: '',
-                    product_title: '',
-                    qty: ''
-                }]
+                products: [products]
             };
-
 
             let add_products = (id, title, quantity) => {
                 if (!checkIfExists(id)) {
@@ -263,23 +263,23 @@
             $(document).on("click", "#crateList_button", function () {
                 console.log(crateList());
             });
-
-            // pobieramy elementy input o id listName i endDate i nasłuchujemy na nie zdarzeń keyup i change
+            //zmiana ilości produktu po zmianie inputu numerycznego
+            $(document).on("change", "#qty", function () {
+                console.log($(this).val());
+                console.log($(this).parent().children('h5').text());
+                let index = products.product_title.indexOf($(this).parent().children('h5').text())
+                products.qty[index] = $(this).val()
+                console.log(products);
+            });
             $("#listName, #endDate").on("keyup change", function () {
-                // tworzymy obiekt list, który zawiera wartości z inputów oraz zmienną products
-                let list = {
+                list = {
                     list_name: $("#listName").val(),
                     end_date: $("#endDate").val(),
                     products: products
-                };
-
-                // zmieniamy wartość elementu o id list_name na wartość inputu o id listName
+                }
                 $("#list_name").text($("#listName").val());
-
-                // zmieniamy wartość elementu o id end_date na wartość inputu o id endDate
                 $("#end_date").text($("#endDate").val());
             });
-
         })
     </script>
     <link rel="stylesheet" href="../assets/style.css">
