@@ -57,7 +57,12 @@ $(document).ready(function() {
     loadData()
     $(document).on("click", "button[data-property='Edit']", function() {
         var productId = $(this).data('product-id');
-        var myModal = new bootstrap.Modal(document.getElementById("exampleModal"))
+        var myModal = new bootstrap.Modal(document.getElementById("exampleModal"));
+        //Edytowanie nazwy
+        var input_title = $('<input>').attr('type', 'text').attr('value',Data[0].name).attr('title-name', 'name');
+        var setButtontitle = $('<button>').text('Ustaw').attr('data-property', 'Set-title').attr('data-listid', Data[0].id);
+        $(".modal-title").empty().append(input_title, setButtontitle);
+        
     
         // utworzenie tabeli
         var table = $('<table>').addClass('table');
@@ -162,6 +167,23 @@ $(document).ready(function() {
             }
         }); 
     });
+
+
+    $(document).on("click", "button[data-property=Set-title]", function() {
+        var name = $('input[title-name=name]', $(this).closest('h5')).val();
+        let id = $(this).data('listid');
+        console.log(id);
+        $.ajax({
+            url: "updateTitle.php",
+            type: "post",
+            data: {id: id,name: name},
+            success: function(result) {
+                console.log(result);
+                loadData()
+            }
+        }); 
+    });
+
 
     $(document).on("click", "Button[data-property=Add]", function() {
         const list_name = $(this).data('list-name');
