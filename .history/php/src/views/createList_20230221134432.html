@@ -16,7 +16,6 @@
         integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
     </script>
     <script>
-        let Data;
         const catergories = {
             1: 'Elektronika',
             2: 'Meble',
@@ -30,7 +29,6 @@
             10: 'RTV'
         }
         let createProductCard = (item) => {
-
             const div = $('<div>').addClass('col-lg-3 col-md-5 col-sm-5 mb-4');
             const card = $('<div>').addClass('card');
             const cardHeader = $('<div>').addClass('card-header img-atas').css('background-image',
@@ -44,9 +42,9 @@
             const div2 = $('<div>').addClass('d-flex justify-content-between');
             const p1 = $('<p>').addClass('text-primary').text(item.product_description.substring(0, 29));
             const p2 = $('<p>').addClass('text-warning');
-            const input = $('<input>').addClass('btn btn-primary').attr('data-property', 'add_tolist').attr('type',
-                    'button')
-                .attr('value', 'Dodaj').attr('data-product-id', item.id_product)
+            const input = $('<input>').addClass('btn btn-primary').attr('id', 'add_tolist').attr('type', 'button')
+                .attr('value', 'Dodaj').attr('data-product-id', item.product_id).attr('data-product-name', item
+                    .product_name).attr('data-product-category', item.category_id).attr('data-product-quantity', 1);
             p2.append(input);
             div2.append(p1).append(p2);
             row3.append(div2);
@@ -97,11 +95,11 @@
                         $("#loading-image").show();
                     },
                     success: function (data) {
-                        Data = data
                         console.log(data);
                         let content = $('#objects').empty()
                         content.append(private_item)
                         $.each(data, function (i, item) {
+                            console.log(item);
                             const productCard = createProductCard(item);
                             content.append(productCard);
                         })
@@ -115,32 +113,6 @@
                 })
 
             }
-<<<<<<< HEAD
-
-            loadData()
-
-            let createList_Ajax = (param) => {
-                console.log(param[0].list_name,param[0].end_date,param[0].products);
-
-                $.ajax({
-                    url: '../create_list.php',
-                    method: 'POST',
-                    data: {
-                        list_name: param[0].list_name,
-                        end_date: param[0].end_date,
-                        products: param[0].products
-                    },
-                    cache: false,
-                    success: function (data) {
-                        console.log(data);
-                    },
-                    error: function (xhr, status, error) {
-                        console.log(status);
-
-                    }
-                })
-            }
-=======
             /*let createList_Ajax = (param) => {
                 $.ajax({
                     url: '../controller_1.php',
@@ -179,7 +151,6 @@
             loadData()
 
             //wyszukiwanie po nazwie i kategorii
->>>>>>> 54d363d (test)
             const $searchInput = $('#searchItem');
             const $categorySelect = $('#categorySelect');
 
@@ -193,92 +164,18 @@
                     categoryQuery : '');
             });
 
-            let listNameInput = $('input[data-property=NameOfList]');
-            let endDateInput = $('input[data-property=DateOfList]');
-            let lists = [];
+            let list = {
+                list_name: '',
+                end_date: '',
+                products: [{
+                    product_id: '',
+                    product_title: '',
+                    qty: ''
+                }]
+            };
 
-<<<<<<< HEAD
-            listNameInput.on('input', function () {
-                updateListName($(this).val());
-            });
-
-            endDateInput.on('input', function () {
-                updateEndDate($(this).val());
-            });
-
-            function updateListName(name) {
-                listName = name;
-            }
-
-            function updateEndDate(date) {
-                endDate = date;
-            }
-
-            $(document).on("click", "input[data-property='add_tolist']", function () {
-                const index = $(this).data('product-id');
-                const productData = Data.find(e => e.id_product == +index);
-                let existingList = lists.find(list => list.list_name === listName);
-
-                if (listName.length > 0 && endDate.length > 0) {
-                    if (existingList) {
-                        let existingProduct = existingList.products.find(product => product
-                            .product_id === productData.id_product);
-                        if (existingProduct) {
-                            existingProduct.qty++;
-                        } else {
-                            existingList.products.push({
-                                product_id: productData.id_product,
-                                product_title: productData.product_name,
-                                qty: 1
-                            });
-                        }
-                    } else {
-                        lists.push({
-                            list_name: listName,
-                            end_date: endDate,
-                            products: [{
-                                product_id: productData.id_product,
-                                product_title: productData.product_name,
-                                qty: 1
-                            }]
-                        });
-                    }
-                }
-                if (lists.length > 0) {
-                    console.log(lists[0].products);
-                    console.log("Tak");
-                    $('#list_name').text(lists[0].list_name);
-                    $('#end_date').text(lists[0].end_date);
-
-                    // Wywołanie funkcji, aby wyświetlić wszystkie listy
-                    let div = $('#list_elements').empty();
-                    const br = $('<br>');
-                    const ul = $('<ul>');
-                    $.each(lists[0].products, function (i, list) {
-
-                        const h5 = $('<h5>').text(list.product_title);
-                        const qty = $('<input>').attr('type', 'number').attr('value', list.qty);
-                        let listItem = $('<li>').append(h5, qty);
-                        ul.append(listItem);
-
-                    });
-                    div.append(ul);
-                    /*
-                    lists.forEach(function (lists[0].products) {
-                        console.log(list);
-                        savlist_body.append(list.product_title + ' - ' + list.quantity);
-                    });*/
-                }
-            });
-            $('#crateList_button').on('click', function () {
-                createList_Ajax(lists);
-            });
-
-        });
-=======
             
         })
->>>>>>> 54d363d (test)
     </script>
     <link rel="stylesheet" href="../assets/style.css">
 </head>
@@ -332,14 +229,14 @@
                     <form class="row g-3 needs-validation" novalidate>
                         <div id="listName_" class="col-md-3">
                             <label for="listName" class="form-label">Nazwa Listy</label>
-                            <input type="text" class="form-control" id="listName" data-property="NameOfList" required>
+                            <input type="text" class="form-control" id="listName" required>
                             <div class="invalid-feedback">
                                 Podaj nazwę listy!
                             </div>
                         </div>
                         <div id="endDate_" class="col-md-3">
                             <label for="endDate" class="form-label">Data zakończenia</label>
-                            <input type="date" class="form-control" id="endDate" data-property="DateOfList" required>
+                            <input type="date" class="form-control" id="endDate" required>
                             <div class="invalid-feedback">
                                 Podaj nazwę listy!
                             </div>
@@ -360,7 +257,7 @@
                 </div>
             </div>
             <div class="col-lg-3">
-                <div class="container pt-4" id="list_body">
+                <div class="container pt-4">
                     <h3 id="list_name">Nazwa Listy</h3>
                     <span id="end_date">Data zakończenia</span>
                     <hr class="hr1" />
