@@ -22,7 +22,7 @@ $(document).ready(function() {
             url: 'group_by_list.php',
             dataType: 'json',
             method: 'POST',
-            data:{query: param, query2: priority},
+            data:{query: param, priority: priority},
             beforeSend: function() {
                 $("#loading-image").show();
              },
@@ -165,7 +165,7 @@ $(document).ready(function() {
     //Po wcisnięciu przycisku "Ustaw", ustawia nową nazwę i liczbę przedmiotu
     $(document).on("click", "button[data-property=Set-item]", function() {
         var index = $('td:nth-child(2)', $(this).closest('tr')).attr('index');
-        // pobieranie wartości z inputów w wierszu
+        // pobieranie wartości z inputów
         var productId = $(this).data('index');
         var name = $('input[org-name=name]', $(this).closest('tr')).val();
         var quantity = $('input[org-name=quantity]', $(this).closest('tr')).val();
@@ -249,7 +249,7 @@ $(document).ready(function() {
         if(inputVal == 0){
             loadData()
         }else if (inputVal.length != "") {
-            loadData(param = '',priority = inputVal)
+            loadData('',param = inputVal)
         }
     })
 });

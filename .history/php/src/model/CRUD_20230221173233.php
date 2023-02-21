@@ -26,7 +26,7 @@ class db{
         return $this->conn;
     }
 
-    // Wyświetlanie produktów z bazy danych oraz wyszukiwanie po nazwie produktu i kategorii 
+    // Wyświetlanie list z bazy danych
     public function getData($query = null, $category = null){
         $this->query = $query;
         $this->category = $category;
@@ -71,7 +71,6 @@ class db{
 
         return $result;
     }
-    //
     public function deleteList($list_id) {
         $this->list_id = $list_id;
         $sql = "DELETE FROM list_items WHERE list_id = $list_id";

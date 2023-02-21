@@ -6,9 +6,8 @@ $db = new db();
 
 try {
     $query = isset($_REQUEST['query']) ? $_REQUEST['query'] : null;
-    $priority = isset($_REQUEST['query2']) ? $_REQUEST['query2'] : null;
-    $data = $db->getDataOfList($query,$priority);
-
+    $data = $db->getDataOfList($query);
+echo $data;
     $lists = array_reduce($data, function ($result, $list) {
         $list_id = $list['list_id'];
         if (!isset($result[$list_id])) {
