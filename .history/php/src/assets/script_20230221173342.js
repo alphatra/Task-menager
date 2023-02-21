@@ -22,7 +22,7 @@ $(document).ready(function() {
             url: 'group_by_list.php',
             dataType: 'json',
             method: 'POST',
-            data:{query: param, query2: priority},
+            data:{query: param, priority: priority},
             beforeSend: function() {
                 $("#loading-image").show();
              },
@@ -249,7 +249,7 @@ $(document).ready(function() {
         if(inputVal == 0){
             loadData()
         }else if (inputVal.length != "") {
-            loadData(param = '',priority = inputVal)
+            loadData('',param = inputVal)
         }
     })
 });

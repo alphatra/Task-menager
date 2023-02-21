@@ -60,7 +60,7 @@ class db{
         $result = mysqli_query($this->conn, $sql);
         $result = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
-        return $result;
+        return $sql;
     }
     public function getListId($list_name){
         $this->list_name = $list_name;

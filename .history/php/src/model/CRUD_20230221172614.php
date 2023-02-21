@@ -40,15 +40,11 @@ class db{
 
         return json_encode($result);
     }
-    public function getDataOfList($query = null, $priority = null){
+    public function getDataOfList($query = null){
         $this->query = $query;
-        $this->priority = $priority;
         $arg = '';
         if(isset($this->query) && $this->query != ''){
-            $arg = "WHERE l.name LIKE '$this->query%' OR l.created_date LIKE '$this->query%'";
-        }
-        if(isset($this->priority) && $this->priority != ''){
-            $arg = "WHERE l.priority LIKE '$this->priority'";
+            $arg = "WHERE l.name LIKE '$this->query%' OR l.created_date LIKE '$this->query%' OR l.priority LIKE '$this->query%'";
         }
         $sql = "SELECT l.name,l.id as list_id, l.created_date, l.end_date, l.priority, COALESCE(p.product_name, pi.item_name) AS product_name, li.quantity, li.id 
                 FROM list l 
