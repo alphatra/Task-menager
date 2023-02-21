@@ -217,6 +217,8 @@ $(document).ready(function() {
             let inputRow = table.find('tr:last');
             inputRow.after(inputRow.prev());
 
+            table.find('tr').each(function(index, row) {
+                $(row).find('td').eq(0).text(index);})
 
             loadData(); 
           }
