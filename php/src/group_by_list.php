@@ -30,7 +30,7 @@ try {
 
     if (count($lists) === 0) {
         header('Content-Type: application/json');
-        echo json_encode(['message' => 'Lista jest pusta']);
+        echo json_encode(['message' => '0']);
     } else {
         header('Content-Type: application/json');
         echo json_encode(array_values($lists));
