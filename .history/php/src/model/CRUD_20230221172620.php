@@ -26,7 +26,7 @@ class db{
         return $this->conn;
     }
 
-    // Wyświetlanie produktów z bazy danych oraz wyszukiwanie po nazwie produktu i kategorii 
+    // Wyświetlanie list z bazy danych
     public function getData($query = null, $category = null){
         $this->query = $query;
         $this->category = $category;
@@ -40,15 +40,11 @@ class db{
 
         return json_encode($result);
     }
-    public function getDataOfList($query = null, $priority = null){
+    public function getDataOfList($query = null){
         $this->query = $query;
-        $this->priority = $priority;
         $arg = '';
         if(isset($this->query) && $this->query != ''){
-            $arg = "WHERE l.name LIKE '$this->query%' OR l.created_date LIKE '$this->query%'";
-        }
-        if(isset($this->priority) && $this->priority != ''){
-            $arg = "WHERE l.priority LIKE '$this->priority'";
+            $arg = "WHERE l.name LIKE '$this->query%' OR l.created_date LIKE '$this->query%' OR l.priority LIKE '$this->query%'";
         }
         $sql = "SELECT l.name,l.id as list_id, l.created_date, l.end_date, l.priority, COALESCE(p.product_name, pi.item_name) AS product_name, li.quantity, li.id 
                 FROM list l 
@@ -60,7 +56,7 @@ class db{
         $result = mysqli_query($this->conn, $sql);
         $result = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
-        return $result;
+        return $sql;
     }
     public function getListId($list_name){
         $this->list_name = $list_name;
@@ -71,7 +67,6 @@ class db{
 
         return $result;
     }
-    //
     public function deleteList($list_id) {
         $this->list_id = $list_id;
         $sql = "DELETE FROM list_items WHERE list_id = $list_id";
