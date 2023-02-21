@@ -205,5 +205,13 @@ class db{
 
         return $query1.$query2;
     }
+
+    public function updateTitle($id,$name) {
+        $this->name = $name;
+        $this->id = $id;
+        $query1 = "UPDATE list SET name = '$name' WHERE id = $this->id";
+        $result = mysqli_query($this->conn, $query1);
+        return $query1;
+    }
 }
 ?>
