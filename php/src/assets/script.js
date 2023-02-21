@@ -36,9 +36,17 @@ $(document).ready(function() {
                 else { //a jeśli jakieś są to je wyświetl
                     Data = data; 
                     $.each(data, function(index, list) {
+<<<<<<< HEAD
                         console.log(list);
                         let div = $('<div>').addClass('col-lg-3 col-md-5 col-sm-5 mb-4 block_list ').attr('data-priority', list.priority);
                         let tittle = $('<h4>').addClass('mt-3 ms-3').text(list.name);
+=======
+                        //Liczba list
+                        var cardTitle = $('#CardLabel');
+                        cardTitle.empty().text(Data.length).append(cardTitle);
+                        let div = $('<div>').addClass('col-lg-3 col-md-5 col-sm-5 mb-4 block_list ').attr('data-priority', list.priority);
+                        let tittle = $('<h4>').addClass('mt-3 ms-3 text-break wrapped').text(list.name);
+>>>>>>> 7bb732df9a8554b4ac8385a07892a3f9100f592b
                         let hr = $('<hr>').addClass('');
                         let elements = $('<ul>').addClass('');
                         $.each(list.products, function(key, product) {
@@ -66,10 +74,17 @@ $(document).ready(function() {
     $(document).on("click", "button[data-property='Edit']", function() {
         var productId = $(this).data('product-id');
         var myModal = new bootstrap.Modal(document.getElementById("exampleModal"));
+<<<<<<< HEAD
         
         //Edytowanie nazwy listy
         var input_title = $('<input>').attr('type', 'text').attr('value',Data[0].name).attr('title-name', 'name');
         var setButtontitle = $('<button>').text('Ustaw').attr('data-property', 'Set-title').attr('data-listid', Data[0].id);
+=======
+        //Edytowanie nazwy listy
+        console.log(productId);
+        var input_title = $('<input>').attr('type', 'text').attr('value',Data[productId].name).attr('title-name', 'name');
+        var setButtontitle = $('<button>').text('Ustaw').addClass('btn btn-success mx-3').attr('data-property', 'Set-title').attr('data-listid', Data[productId].id);
+>>>>>>> 7bb732df9a8554b4ac8385a07892a3f9100f592b
         $(".modal-title").empty().append(input_title, setButtontitle);
         
     

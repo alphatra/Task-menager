@@ -15,6 +15,7 @@
   --color-tertiary-lighter: rgba(255, 235, 249, 1);
   --color-tertiary-dark: rgba(238, 107, 137, 1);
   --color-tertiary-accent: rgba(64, 105, 228, 1);
+  --color-danger-too: rgba(220, 53, 70, 0.692);
 }
 body {
     font-family: 'Roboto', sans-serif;
@@ -134,7 +135,7 @@ td:nth-last-child(-n+1){
   text-align: center;
 }
 
-input[org-name="name"],input[name="name"]{
+input[org-name="name"],input[name="name"],input[title-name="name"]{
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 8px;
   width: 20ch;
@@ -157,6 +158,17 @@ button{
 button[data-property="Delete-item"]{
   color: red;
 }
+<<<<<<< HEAD
 #list_elements{
   background-color: #D9D9D9
+=======
+
+.dangerous{
+  background-color: var(--color-danger-too);
+  color: white;
+}
+
+.wrapped{
+  width: 10rem;
+>>>>>>> 7bb732df9a8554b4ac8385a07892a3f9100f592b
 }
