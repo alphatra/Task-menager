@@ -133,89 +133,50 @@
 
             });
 
-            let listNameInput = $('input[data-property=NameOfList]');
-            let endDateInput = $('input[data-property=DateOfList]');
-            let lists = [];
+            let _list_name="";
+            let _end_date="";
 
-            listNameInput.on('input', function () {
-                updateListName($(this).val());
+            $('input[data-property=NameOfList]').on('keyup change', function () {
+                _list_name = $(this).val();
             });
 
-            endDateInput.on('input', function () {
-                updateEndDate($(this).val());
+            $('input[data-property=DateOfList]').on('keyup change', function () {
+                _end_date = $(this).val();
             });
-
-            function updateListName(name) {
-                listName = name;
-            }
-
-            function updateEndDate(date) {
-                endDate = date;
-            }
-
-            function displayList(list) {
-                console.log("List name: " + list.list_name);
-                console.log("End date: " + list.end_date);
-                console.log("Products:");
-                const _div = $('<div>');
-                const h3 = $('<h3>').text(list.list_name);
-                const p = $('<span>').text(list.end_date);
-                const hr = $('<hr>').addClass('hr1');
-                const div = $('#list_elements').addClass('px-3 py-3').style({'background-color':'#D9D9D9'});
-                list.products.forEach(function (product) {
-                    console.log("  - " + product.product_title + " (qty: " + product.qty + ")");
-                    div.append(product.product_title + " " + product.qty)
-                });
-                _div.append(h3, p, hr, div, hr);
-                return _div;
-            }
+            let lists = []
 
             $(document).on("click", "input[data-property='add_tolist']", function () {
                 const index = $(this).data('product-id');
-                const productData = Data.find(e => e.id_product == +index);
-                let existingList = lists.find(list => list.list_name === listName);
+                const product_data = Data.find(e => e.id_product == +index)
+                let existing_list = lists.find(list => list.list_name === _list_name);
 
-                if (listName.length > 0 && endDate.length > 0) {
-                    if (existingList) {
-                        let existingProduct = existingList.products.find(product => product
-                            .product_id === productData.id_product);
-                        if (existingProduct) {
-                            existingProduct.qty++;
-                        } else {
-                            existingList.products.push({
-                                product_id: productData.id_product,
-                                product_title: productData.product_name,
-                                qty: 1
-                            });
-                        }
+                if (_list_name != empty && _end_date != empty && existing_list) {
+                    let existing_product = existing_list.products.find(product => product.product_id ===
+                        product_data.id_product);
+                    if (existing_product) {
+                        existing_product.qty++;
                     } else {
-                        lists.push({
-                            list_name: listName,
-                            end_date: endDate,
-                            products: [{
-                                product_id: productData.id_product,
-                                product_title: productData.product_name,
-                                qty: 1
-                            }]
-                        });
+                        existing_list.products.push({
+                            product_id: product_data.id_product,
+                            product_title: product_data.product_name,
+                            qty: 1
+                        })
                     }
+                } else {
+                    lists.push({
+                        list_name: _list_name,
+                        end_date: _end_date,
+                        products: [{
+                            product_id: product_data.id_product,
+                            product_title: product_data.product_name,
+                            qty: 1
+                        }]
+                    })
                 }
-                if (lists.length > 0) {
-                console.log("Tak");
-                let savlist_body = $('#list_body');
-                // Wywołanie funkcji, aby wyświetlić wszystkie listy
-                lists.forEach(function (list) {
-                    console.log(list);
-                    savlist_body.append(displayList(list));
-                });
-            }
-            });
+                console.log(lists);
+            })
 
-            
-
-            
-
-        });
+        })
     </script>
     <link rel="stylesheet" href="../assets/style.css">
 </head>
@@ -297,7 +258,7 @@
                 </div>
             </div>
             <div class="col-lg-3">
-                <div class="container pt-4" id="list_body">
+                <div class="container pt-4">
                     <h3 id="list_name">Nazwa Listy</h3>
                     <span id="end_date">Data zakończenia</span>
                     <hr class="hr1" />
