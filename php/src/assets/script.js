@@ -15,7 +15,8 @@ $(document).ready(function() {
         const output = Object.values(result);
         return output;
         };*/
-        
+    
+    /*====== POBIERANIE DANYCH O LIŚCIE ======*/
     const loadData = (param) => {
         $.ajax({
             url: 'group_by_list.php',
@@ -53,12 +54,14 @@ $(document).ready(function() {
             }
         })
     }
+    /*=================================*/
 
     loadData()
     $(document).on("click", "button[data-property='Edit']", function() {
         var productId = $(this).data('product-id');
         var myModal = new bootstrap.Modal(document.getElementById("exampleModal"));
-        //Edytowanie nazwy
+        
+        //Edytowanie nazwy listy
         var input_title = $('<input>').attr('type', 'text').attr('value',Data[0].name).attr('title-name', 'name');
         var setButtontitle = $('<button>').text('Ustaw').attr('data-property', 'Set-title').attr('data-listid', Data[0].id);
         $(".modal-title").empty().append(input_title, setButtontitle);
@@ -101,8 +104,8 @@ $(document).ready(function() {
             }
             /*=================================*/
         });
+        
         // dodanie wiersza z polami do wypełnienia i przyciskiem "Dodaj"
-
         var newRow = $('<tr>');
         let input_name = $('<input>').attr('type', 'text').attr('name', 'name').attr('placeholder', 'Dodaj nowy produkt');
         let input_quantity = $('<input>').attr('type', 'number').attr('name','quantity').attr('value','1').attr('pattern','[0-9]+').attr('min', '1').attr('max', '100').attr('inputmode', 'numeric');
@@ -116,6 +119,8 @@ $(document).ready(function() {
 
         $(".modal-body").empty().append(table);
         myModal.show();
+
+        //Schowaj po naciśnięciu krzyżyka lub przycisku "zamknij"
         $(document).on("click", ".btn-secondary, .btn-close", function() {
             myModal.hide();
         });
@@ -136,6 +141,7 @@ $(document).ready(function() {
         });
     });
 
+    //Po wcisnięciu przycisku "Usuń", usuwa przedmiot z listy
     $(document).on("click", "Button[data-property=Delete-item]", function() {
         let idItem = $(this).data('index');
         console.log(idItem);
@@ -150,6 +156,7 @@ $(document).ready(function() {
         });
     });
 
+    //Po wcisnięciu przycisku "Ustaw", ustawia nową nazwę i liczbę przedmiotu
     $(document).on("click", "button[data-property=Set-item]", function() {
         var index = $('td:nth-child(2)', $(this).closest('tr')).attr('index');
         // pobieranie wartości z inputów w wierszu
@@ -168,7 +175,7 @@ $(document).ready(function() {
         }); 
     });
 
-
+    //Po wcisnięciu przycisku "Ustaw", Ustawia nową nazwę listy
     $(document).on("click", "button[data-property=Set-title]", function() {
         var name = $('input[title-name=name]', $(this).closest('h5')).val();
         let id = $(this).data('listid');
@@ -184,7 +191,7 @@ $(document).ready(function() {
         }); 
     });
 
-
+    //Po wcisnięciu przycisku "Dodaj", dodaje nowy przedmiot do listy
     $(document).on("click", "Button[data-property=Add]", function() {
         const list_name = $(this).data('list-name');
         const id = $(this).data('product-id');
@@ -197,7 +204,7 @@ $(document).ready(function() {
           type: "post",
           data: { list: list_name, product_name: name, quantity: qty },
           success: function(result) {
-            
+            //wstawianie nowego przedmiotu do tabeli
             let table = $('table');
             let row = $('<tr>');
             $('<td>').text(id).appendTo(row);
@@ -205,12 +212,18 @@ $(document).ready(function() {
             $('<td>').text(qty).appendTo(row);
             $('<td>').text('').appendTo(row);
             row.appendTo(table);
+
+            // przesuń input na koniec tabeli
+            let inputRow = table.find('tr:last');
+            inputRow.after(inputRow.prev());
+
+
             loadData(); 
           }
         });
       });
       
-
+    //wyszukiwanie po nazwie
     $("#search").on("keyup change",function(){
         let inputVal = $(this).val();
         console.log(inputVal);
