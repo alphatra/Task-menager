@@ -17,7 +17,6 @@ if (!empty($products)) {
     }
     $products = json_decode($products);
     foreach ($products as $product) {
-        echo "List Name: " . $list_name . "<br>";
         echo "Product ID: " . $product->product_id . "<br>";
         echo "Product Title: " . $product->product_title . "<br>";
         echo "Quantity: " . $product->qty . "<br>";

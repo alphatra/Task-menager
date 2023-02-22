@@ -10,18 +10,18 @@ $products = isset($_REQUEST['products']) ? $_REQUEST['products'] : '';
 
 echo (print_r($products, true));
 
-echo $db->createList($list_name, $end_date);
+echo $db->createList($list_name, $end_date).'\n';
+echo $list_name;
 if (!empty($products)) {
     if (is_array($products)) {
         $products = json_encode($products);
     }
     $products = json_decode($products);
     foreach ($products as $product) {
-        echo "List Name: " . $list_name . "<br>";
         echo "Product ID: " . $product->product_id . "<br>";
         echo "Product Title: " . $product->product_title . "<br>";
         echo "Quantity: " . $product->qty . "<br>";
-        echo $db->createListItems ($list_name, $product->qty, $product->product_id, '');
+        echo $db->createListItems($list_name, $product->qty, $product->product_id, '').'\n';
     }
 }
 
