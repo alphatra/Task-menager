@@ -29,24 +29,32 @@ $(document).ready(function() {
             success: function(data) {
                 console.log(data);
                 let content = $('#objects').empty()
-                Data = data; 
-                $.each(data, function(index, list) {
-                    console.log(list);
-                    let div = $('<div>').addClass('col-lg-3 col-md-5 col-sm-5 mb-4 block_list ').attr('data-priority', list.priority);
-                    let tittle = $('<h4>').addClass('mt-3 ms-3').text(list.name);
-                    let hr = $('<hr>').addClass('');
-                    let elements = $('<ul>').addClass('');
-                    $.each(list.products, function(key, product) {
-                        let listItem = $('<li>').addClass('').text(product.name + ' - ' + product.quantity);
-                        elements.append(listItem);
+                if (data.message == 0) { // jeśli brak danych wyświetl że nie ma list
+                    let message = $('<p>').addClass('text-center').text('Aktualnie nie posiadasz żadnych list.');
+                    content.append(message);
+                } 
+                else { //a jeśli jakieś są to je wyświetl
+                    Data = data; 
+                    $.each(data, function(index, list) {
+                        //Liczba list
+                        var cardTitle = $('#CardLabel');
+                        cardTitle.empty().text(Data.length).append(cardTitle);
+                        let div = $('<div>').addClass('col-lg-3 col-md-5 col-sm-5 mb-4 block_list ').attr('data-priority', list.priority);
+                        let tittle = $('<h4>').addClass('mt-3 ms-3 text-break wrapped').text(list.name);
+                        let hr = $('<hr>').addClass('');
+                        let elements = $('<ul>').addClass('');
+                        $.each(list.products, function(key, product) {
+                            let listItem = $('<li>').addClass('').text(product.name + ' - ' + product.quantity);
+                            elements.append(listItem);
+                        });
+                        let deleteButton = $('<button>').addClass('').attr('data-property', 'Delete').attr('data-listid', list.id).text('Usuń');
+                        let editButton = $('<button>').addClass('').attr('data-property', 'Edit').attr('data-product-id', index).text('Edytuj');
+                        div.append(tittle, hr, elements, deleteButton, editButton);
+                        content.append(div);
                     });
-                    let deleteButton = $('<button>').addClass('').attr('data-property', 'Delete').attr('data-listid', list.id).text('Usuń');
-                    let editButton = $('<button>').addClass('').attr('data-property', 'Edit').attr('data-product-id', index).text('Edytuj');
-                    div.append(tittle, hr, elements, deleteButton, editButton);
-                    content.append(div);
-                });
-                // ukrycie animacji ładowania
-                $("#loading-image").hide();
+                }
+                    // ukrycie animacji ładowania
+                    $("#loading-image").hide();
             },
             error: function (xhr, status, error){
                 console.log(xhr);
@@ -59,7 +67,13 @@ $(document).ready(function() {
     loadData()
     $(document).on("click", "button[data-property='Edit']", function() {
         var productId = $(this).data('product-id');
-        var myModal = new bootstrap.Modal(document.getElementById("exampleModal"))
+        var myModal = new bootstrap.Modal(document.getElementById("exampleModal"));
+        //Edytowanie nazwy listy
+        console.log(productId);
+        var input_title = $('<input>').attr('type', 'text').attr('value',Data[productId].name).attr('title-name', 'name');
+        var setButtontitle = $('<button>').text('Ustaw').addClass('btn btn-success mx-3').attr('data-property', 'Set-title').attr('data-listid', Data[productId].id);
+        $(".modal-title").empty().append(input_title, setButtontitle);
+        
     
         // utworzenie tabeli
         var table = $('<table>').addClass('table');

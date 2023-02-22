@@ -135,7 +135,7 @@ td:nth-last-child(-n+1){
   text-align: center;
 }
 
-input[org-name="name"],input[name="name"],input[title-name="name"]{
+input[org-name="name"],input[name="name"]{
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 8px;
   width: 20ch;
@@ -158,10 +158,9 @@ button{
 button[data-property="Delete-item"]{
   color: red;
 }
-<<<<<<< HEAD
 #list_elements{
   background-color: #D9D9D9
-=======
+}
 
 .dangerous{
   background-color: var(--color-danger-too);
@@ -170,5 +169,4 @@ button[data-property="Delete-item"]{
 
 .wrapped{
   width: 10rem;
->>>>>>> 7bb732df9a8554b4ac8385a07892a3f9100f592b
 }
