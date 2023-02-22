@@ -15,6 +15,7 @@
   --color-tertiary-lighter: rgba(255, 235, 249, 1);
   --color-tertiary-dark: rgba(238, 107, 137, 1);
   --color-tertiary-accent: rgba(64, 105, 228, 1);
+  --color-danger-too: rgba(220, 53, 70, 0.692);
 }
 body {
     font-family: 'Roboto', sans-serif;
@@ -159,4 +160,13 @@ button[data-property="Delete-item"]{
 }
 #list_elements{
   background-color: #D9D9D9
+}
+
+.dangerous{
+  background-color: var(--color-danger-too);
+  color: white;
+}
+
+.wrapped{
+  width: 10rem;
 }
