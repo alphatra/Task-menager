@@ -67,7 +67,7 @@ class db{
         $query = "SELECT id FROM list WHERE name = '$this->list_name'";
         $result = mysqli_query($this->conn, $query);
         $result = mysqli_fetch_all($result, MYSQLI_ASSOC);
-        $result = $result[0]['id'];
+        $result = $result[0];
 
         return $result;
     }
@@ -166,30 +166,29 @@ class db{
         return $query;
     }
 
-    public function createListItems($list_name, $qty, $id_product = null, $item_key = null) {
+    public function createListItems($list_name,$qty,$id_product=null, $item_key=null){
         $id = $this->getMaxId('list_items');
         $this->qty = $qty;
         $this->list_name = $list_name;
-        $list_id = $this->getListId($list_name);
+        $list_name= $this->getListId($list_name);
         $this->id_product = $id_product;
         $this->item_key = $item_key;
-        $arg = '';
-        $arg2 = '';
-    
-        if (isset($this->id_product)) {
+        $arg='';
+        $arg2='';
+        
+        if(isset($this->id_product)){
             $arg = 'id_product';
-            $arg2 = $this->id_product;
-        } elseif (isset($this->item_key)) {
-            $arg = 'item_key';
-            $arg2 = $this->item_key;
+            $arg2 = $id_product;
         }
-    
-        $sql = "INSERT INTO list_items (id, quantity, list_id, $arg) VALUES ('$id', '$qty', '$list_id', '$arg2')";
+        if(isset($this->item_key)){
+            $arg = 'item_key';
+            $arg2 = $item_key;
+        }
+        $sql = "INSERT INTO list_items (id, quantity, list_id, $arg) VALUES ('{$id}', '{$qty}', '{$list_name}','{$arg2}')";
         mysqli_query($this->conn, $sql);
-    
+
         return $sql;
     }
-    
 
     public function addPrivateItem($item_key, $item_name){
         $this->item_key = $item_key;
