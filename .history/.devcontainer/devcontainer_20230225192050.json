@@ -1,0 +1,6 @@
+{
+    "name": "Task manager",
+    "dockerComposeFile": "../docker-compose.yml",
+    "service": ["php-apache-environment","db","phpmyadmin"],
+    "forwardPorts": [9000,9001]
+  }
